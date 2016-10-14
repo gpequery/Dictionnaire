@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1476481230 source:c:\users\greg\desktop\temp\dictionnaire\main.c
+	<stdio.h>
+	<stdlib.h>
+	"functions.h"
+
+1476481264 c:\users\greg\desktop\temp\dictionnaire\functions.h
+

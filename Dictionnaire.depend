@@ -6,3 +6,13 @@
 
 1476481264 c:\users\greg\desktop\temp\dictionnaire\functions.h
 
+1476522965 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
+	<stdio.h>
+	<stdlib.h>
+	"affichage.h"
+
+1476522997 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
+	"functions.h"
+
+1476522953 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
+

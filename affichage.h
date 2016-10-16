@@ -10,5 +10,5 @@ void clearConsole() {
 
 void accueil() {
     clearConsole();
-    printf("Choix du dico !\n");
+    printf("Choisir son dico !\n");
 }

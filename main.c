@@ -4,7 +4,6 @@
 #include "affichage.h"
 
 int main() {
-
-    clearConsole();
+    accueil();
     return 0;
 }

@@ -11,8 +11,9 @@
 	<stdlib.h>
 	"affichage.h"
 
-1476609300 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
+1476652398 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
 	"functions.h"
 
-1476522953 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
+1476651832 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
+	<dirent.h>
 

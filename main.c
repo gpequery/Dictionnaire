@@ -3,9 +3,9 @@
 
 #include "functions.h"
 
-void clearConsole(char*);
-void accueil();
-void menu(int);
+void clearConsole(char*);   //Affichage en tete (char* le titre a afficher)
+void accueil();             //Gestion des dicos
+void menu(int);             //Apres selection d'un dico (int: numDico)
 
 
 int main() {
@@ -28,15 +28,21 @@ void clearConsole(char* dico) {
 
 void accueil() {
     clearConsole("accueil");
-    printf("Les dictionnaires disponible: \n\n");
 
     int nbDico = getLesDicos();
+
+    printf("\n");
+    printf("%d. Nouveau vide\n", nbDico+1);
+    printf("%d. Nouveau avec fichier\n", nbDico+2);
+    printf("%d. Supprimer\n", nbDico+3);
+    printf("%d. Quitter\n\n\n", nbDico+4);
+
     int action;
 
     printf("Selectionner un dictionnaire: ");
     scanf("%d", &action);
 
-    if (action == nbDico + 1 ) {
+    if (action == nbDico + 1 ) {                //Nouveau Dico vide
         char name[30];
 
         printf("\nNom du nouveau dictionnaire: ");
@@ -44,7 +50,30 @@ void accueil() {
 
         ajouterDico(name);
         accueil();
-    } else if (action == nbDico + 2 ) {
+    } else if (action == nbDico + 2 ) {         //Nouveau dico par fichier
+        printf("----------------------\n\n");
+        int nbFichier = getLesFichiers(nbDico);
+
+        char file[30] = "";
+        int exist = 0;
+
+        while ( !( exist = existFichier(file) ) ) {
+            printf("\tNom du fichier texte a utiliser : ");
+            scanf("%s", &file);
+        }
+
+        char newName[30] = "";
+        exist = 0;
+
+        /*  revoir la boucle/fonction exist Dico pour voir si  le nouveau nom tapé n'est pas un dico déjà exxistant ...
+        while ( !( exist = existDico(newName) ) ) {
+            printf("\tNom du nouveau dictionnaire : ");
+            scanf("%s", &newName);
+        }*/
+
+        acouterDicoFile(file, newName);
+        accueil();
+    } else if (action == nbDico + 3 ) {         //Supprimer Dico
         char name[30];
 
         printf("\nNom du dictionnaire a supprimer: ");
@@ -52,13 +81,13 @@ void accueil() {
 
         supprimerDico(name);
         accueil();
-    } else if (action == nbDico + 3 )  {
+    } else if (action == nbDico + 4 )  {        //Quitter
         system("exit");
     } else {
-        if ( action > 0 && action <= nbDico) {
+        if ( action > 0 && action <= nbDico) {  //Si sélection d'un dico existant (go menu)
             menu(action);
         } else {
-            accueil();
+            accueil();                          //Si sélection d'un int non valide (retour accueil)
         }
     }
  }

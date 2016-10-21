@@ -6,14 +6,14 @@
 
 1476481264 c:\users\greg\desktop\temp\dictionnaire\functions.h
 
-1476609030 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
+1477073346 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
 	<stdio.h>
 	<stdlib.h>
-	"affichage.h"
+	"functions.h"
 
 1476652398 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
 	"functions.h"
 
-1476651832 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
+1477073046 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
 	<dirent.h>
 

@@ -57,22 +57,21 @@ void accueil() {
         char file[30] = "";
         int exist = 0;
 
-        while ( !( exist = existFichier(file) ) ) {
+        do {
             printf("\tNom du fichier texte a utiliser : ");
             scanf("%s", &file);
-        }
+        } while (!(exist = existFichier(file)));
 
         char newName[30] = "";
-        exist = 0;
+        exist = 1;
 
-        /*  revoir la boucle/fonction exist Dico pour voir si  le nouveau nom tapé n'est pas un dico déjà exxistant ...
-        while ( !( exist = existDico(newName) ) ) {
-            printf("\tNom du nouveau dictionnaire : ");
+        do {
+            printf("\tNom du dictionnaire a creer : ");
             scanf("%s", &newName);
-        }*/
+        } while ((exist = existDico(newName)));
 
-        acouterDicoFile(file, newName);
-        accueil();
+        ajouterDicoFile(file, newName);
+        //accueil();
     } else if (action == nbDico + 3 ) {         //Supprimer Dico
         char name[30];
 

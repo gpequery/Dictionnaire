@@ -133,15 +133,16 @@ int existDico(char* nom) {
 }
 
 void ajouterDicoFile(char* oldName, char* name) {
-    printf("\n\nFILE : %s  |  DICO : %s\n\n", oldName, name);
+    printf("\n\nDico : %s  |  Nouveau : %s\n\n", oldName, name);
 
     char newName[50] = "LesDictionnaires/";
     strcat(oldName, name);
-    /*
-    FILE* oldFile = fopen(oldName, "r")l
-    if () {
 
-    }*/
+    FILE* oldFile = fopen(oldName, "r");
+    if (oldFile) {
+    ///////////
+        fclose(oldFile);
+    }
 
 }
 

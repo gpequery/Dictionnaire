@@ -6,21 +6,20 @@
 
 1476481264 c:\users\greg\desktop\temp\dictionnaire\functions.h
 
-<<<<<<< HEAD
-1478180094 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
-=======
-1476522965 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
->>>>>>> refs/remotes/origin/master
+1476522965 D
+
+1478181544 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
 	<stdio.h>
 	<stdlib.h>
 	"functions.h"
 
-<<<<<<< HEAD
-1476652398 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
-=======
-1476522997 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
->>>>>>> refs/remotes/origin/master
+1476522997 s/remotes/origin/master
+	<stdio.h>
+	<stdlib.h>
 	"functions.h"
+	"functions.h"
+
+1476522997 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
 
 1478180071 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
 	<dirent.h>

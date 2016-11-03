@@ -9,7 +9,8 @@ void menu(int);             //Apres selection d'un dico (int: numDico)
 
 
 int main() {
-    accueil();
+
+    clearConsole();
     return 0;
 }
 

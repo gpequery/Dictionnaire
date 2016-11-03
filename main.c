@@ -2,10 +2,11 @@
 #include <stdlib.h>
 
 #include "functions.h"
+#define couleur(param) printf("\033[%sm",param)
 
 void clearConsole(char*);   //Affichage en tete (char* le titre a afficher)
 void accueil();             //Gestion des dicos
-void menu(int);             //Apres selection d'un dico (int: numDico)
+void menu(int, int, char*);             //Apres selection d'un dico (int: numDico)
 
 
 int main() {
@@ -84,18 +85,43 @@ void accueil() {
         system("exit");
     } else {
         if ( action > 0 && action <= countDico) {  //Si sélection d'un dico existant (go menu)
-            menu(action);
+            menu(action, -1, "");
         } else {
             accueil();                          //Si sélection d'un int non valide (retour accueil)
         }
     }
  }
 
-void menu(int numDico) {
+void menu(int numDico, int in, char* word) {
     char* nomDico = getNomDico(numDico);
+    char pathDico[50] = "";
+    char input[50];
 
     clearConsole(nomDico);
-    printf("MENU \n\n", nomDico);
+    printf("Rechercher un mot dans le dictionnaire %s :\n\n", nomDico);
 
+    if (in == 0) {
+        couleur("31");
+        printf("'%s' n'est pas dans le dictionnaire", word);
+    } else if (in == 1) {
+        couleur("32");
+        printf("'%s' est dans le dictionnaire", word);
+    }
+    couleur("37");
+
+    printf("\nMot recherche en minuscule (quitter : 'Q') : ");
+    scanf("%s", input);
+
+    strcat(pathDico, "LesDictionnaires/");
+    strcat(pathDico, nomDico);
+    strcat(pathDico, ".txt");
+
+    if ( strcmp(input, "Q") == 0 ) {
+        accueil();
+    } else if (wordInDico(pathDico, input)) {
+        menu(numDico, 1, input);
+    } else {
+        menu(numDico, 0, input);
+    }
  }
 

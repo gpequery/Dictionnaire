@@ -1,4 +1,3 @@
-// les fonctions
 #include <dirent.h>
 
 int getLesDicos();          //Retourne le nombre de dico & les affiches;
@@ -71,7 +70,8 @@ void supprimerDico(char* input) {
     strcat(file, input);
     strcat(file, ".txt");
 
-    remove(file);
+    int test = remove(file);
+    printf("\nFile : %s | %d\n\n", file, test);
 }
 
 char* getNomDico(int numDico)  {
@@ -186,8 +186,8 @@ short wordInDico(char* directoryDico, char* word) {
         return 1;
     } else {
         FILE* dico = fopen(directoryDico, "r");
-
         if (dico) {
+
             char compare[50];
             while(!feof(dico)) {
                 fscanf(dico, "%s", compare);
@@ -195,7 +195,7 @@ short wordInDico(char* directoryDico, char* word) {
                     return 1;
                 }
             }
-        fclose(dico);
+            fclose(dico);
         }
     }
     return in;

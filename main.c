@@ -9,8 +9,7 @@ void menu(int);             //Apres selection d'un dico (int: numDico)
 
 
 int main() {
-
-    clearConsole();
+    accueil();
     return 0;
 }
 
@@ -96,7 +95,7 @@ void menu(int numDico) {
     char* nomDico = getNomDico(numDico);
 
     clearConsole(nomDico);
-    printf("MENU\n\n");
+    printf("MENU \n\n", nomDico);
 
  }
 

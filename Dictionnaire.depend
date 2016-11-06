@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-1478454455 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
+1478454851 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
 	<stdio.h>
 	<stdlib.h>
 	"gestbib.c"
 
-1478453996 d:\greg\workspaces\codeblocks\dictionnaire\gestbib.c
+1478454851 d:\greg\workspaces\codeblocks\dictionnaire\gestbib.c
 	<dirent.h>
 

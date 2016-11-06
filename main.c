@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "functions.h"
+#include "gestbib.c"
+
 #define couleur(param) printf("\033[%sm",param)
 
 void clearConsole(char*);   //Affichage en tete (char* le titre a afficher)

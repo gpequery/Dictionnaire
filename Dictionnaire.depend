@@ -1,26 +1,9 @@
 # depslib dependency file v1.0
-1476481230 source:c:\users\greg\desktop\temp\dictionnaire\main.c
+1478454455 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
 	<stdio.h>
 	<stdlib.h>
-	"functions.h"
+	"gestbib.c"
 
-1476481264 c:\users\greg\desktop\temp\dictionnaire\functions.h
-
-1476522965 D
-
-1478193153 source:d:\greg\workspaces\codeblocks\dictionnaire\main.c
-	<stdio.h>
-	<stdlib.h>
-	"functions.h"
-
-1476522997 s/remotes/origin/master
-	<stdio.h>
-	<stdlib.h>
-	"functions.h"
-	"functions.h"
-
-1476522997 d:\greg\workspaces\codeblocks\dictionnaire\affichage.h
-
-1478191876 d:\greg\workspaces\codeblocks\dictionnaire\functions.h
+1478453996 d:\greg\workspaces\codeblocks\dictionnaire\gestbib.c
 	<dirent.h>
 

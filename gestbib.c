@@ -200,3 +200,10 @@ short wordInDico(char* directoryDico, char* word) {
     }
     return in;
 }
+
+short addWord(char* pathDico, char* word) {
+    short result = 0;
+    printf("\nDico : %s  |  Mot : %s\n", pathDico, tolower(word));
+
+    return result;
+}

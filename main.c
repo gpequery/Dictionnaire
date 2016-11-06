@@ -25,7 +25,7 @@ void clearConsole(char* dico) {
     for ( i = 0; i < size; i ++ ) {
         printf("-");
     }
-    printf("\n\n\n");
+    printf("\n\n");
 }
 
 void accueil() {
@@ -94,13 +94,18 @@ void accueil() {
  }
 
 void menu(int numDico, int in, char* word) {
+    int action;
     char* nomDico = getNomDico(numDico);
-    char pathDico[50] = "";
     char input[50];
+    char pathDico[50] = "";
+
+    strcat(pathDico, "LesDictionnaires/");
+    strcat(pathDico, nomDico);
+    strcat(pathDico, ".txt");
 
     clearConsole(nomDico);
-    printf("Rechercher un mot dans le dictionnaire %s :\n\n", nomDico);
 
+    //Message pour indiquer le résultat de l'action
     if (in == 0) {
         couleur("31");
         printf("'%s' n'est pas dans le dictionnaire", word);
@@ -110,19 +115,30 @@ void menu(int numDico, int in, char* word) {
     }
     couleur("37");
 
-    printf("\nMot recherche en minuscule (quitter : 'Q') : ");
-    scanf("%s", input);
+    printf("\n\n");
+    printf("1. Chercher un mot\n");
+    printf("2. Ajouter un mot\n");
+    printf("3. Retour \n\n");
 
-    strcat(pathDico, "LesDictionnaires/");
-    strcat(pathDico, nomDico);
-    strcat(pathDico, ".txt");
+    printf("Que voulez vous faire : ");
+    scanf("%d", &action);
 
-    if ( strcmp(input, "Q") == 0 ) {
+    if (action == 1) {
+        printf("\nMot recherche en minuscule : ");
+        scanf("%s", input);
+
+        if (wordInDico(pathDico, input)) {
+            menu(numDico, 1, input);
+        } else {
+            menu(numDico, 0, input);
+        }
+    } else if (action == 2) {
+        printf("\tMot a ajouter : ");
+        scanf("%s", input);
+        addWord(pathDico, input);
+    } else if (action == 3) {
         accueil();
-    } else if (wordInDico(pathDico, input)) {
-        menu(numDico, 1, input);
     } else {
-        menu(numDico, 0, input);
+        menu(numDico, in, word);
     }
  }
-

@@ -1,4 +1,5 @@
 #include <dirent.h>
+#define color(param) printf("\033[%sm",param)
 
 int getLesDicos();          //Retourne le nombre de dico & les affiches;
 int getLesFichiers(int);    //Retourne le nombre de fichier & les affiches (int:le nombre de dico)
@@ -18,6 +19,7 @@ int getLesDicos() {
 
     char* name;
     printf("Les dictionnaires disponible: \n\n");
+    color("33");
     if ( directory != NULL ) {
         while ( file = readdir(directory) ) {
             if ( (strcmp(file->d_name, ".") != 0) && (strcmp(file->d_name, "..") != 0) ) {
@@ -39,6 +41,7 @@ int getLesFichiers(int countDico) {
 
     char* name;
     printf("\tLes fichiers disponible: \n");
+    color("33");
     if ( dossier != NULL ) {
         while ( fichier = readdir(dossier) ) {
             if ( (strcmp(fichier->d_name, ".") != 0) && (strcmp(fichier->d_name, "..") != 0) ) {
@@ -51,6 +54,7 @@ int getLesFichiers(int countDico) {
         closedir(dossier);
     }
     printf("\n");
+    color("33");
     return count;
 }
 

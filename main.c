@@ -3,7 +3,7 @@
 
 #include "gestbib.c"
 
-#define couleur(param) printf("\033[%sm",param)
+#define color(param) printf("\033[%sm",param)
 
 void clearConsole(char*);   //Affichage en tete (char* le titre a afficher)
 void accueil();             //Gestion des dicos
@@ -17,6 +17,7 @@ int main() {
 
 void clearConsole(char* dico) {
     system("cls");
+    color("35");
     printf("Dictionnaire %s\n", dico);
     printf("--------------");
 
@@ -26,13 +27,14 @@ void clearConsole(char* dico) {
         printf("-");
     }
     printf("\n\n");
+    color("37");
 }
 
 void accueil() {
     clearConsole("accueil");
 
     int countDico = getLesDicos();
-
+    color("36");
     printf("\n");
     printf("%d. Nouveau vide\n", countDico+1);
     printf("%d. Nouveau avec fichier\n", countDico+2);
@@ -40,9 +42,10 @@ void accueil() {
     printf("%d. Quitter\n\n\n", countDico+4);
 
     int action;
-
+    color("37");
     printf("Selectionner un dictionnaire: ");
     scanf("%d", &action);
+
 
     if (action == countDico + 1 ) {                //Nouveau Dico vide
         char name[30];
@@ -56,9 +59,10 @@ void accueil() {
         printf("----------------------\n\n");
         int nbFichier = getLesFichiers(countDico);
 
+
         char file[30] = "";
         int exist = 0;
-
+        color("37");
         do {
             printf("\tNom du fichier texte a utiliser : ");
             scanf("%s", &file);
@@ -107,24 +111,25 @@ void menu(int numDico, int in, char* word) {
 
     //Message pour indiquer le résultat de l'action
     if (in == 0) {
-        couleur("31");
+        color("31");
         printf("'%s' n'est pas dans le dictionnaire", word);
     } else if (in == 1) {
-        couleur("32");
+        color("32");
         printf("'%s' est dans le dictionnaire", word);
     }
-    couleur("37");
 
+    color("36");
     printf("\n\n");
     printf("1. Chercher un mot\n");
     printf("2. Ajouter un mot\n");
     printf("3. Retour \n\n");
 
+    color("37");
     printf("Que voulez vous faire : ");
     scanf("%d", &action);
 
     if (action == 1) {
-        printf("\nMot recherche en minuscule : ");
+        printf("Mot recherche en minuscule : ");
         scanf("%s", input);
 
         if (wordInDico(pathDico, input)) {
@@ -133,7 +138,7 @@ void menu(int numDico, int in, char* word) {
             menu(numDico, 0, input);
         }
     } else if (action == 2) {
-        printf("\tMot a ajouter : ");
+        printf("Mot a ajouter : ");
         scanf("%s", input);
         addWord(pathDico, input);
     } else if (action == 3) {

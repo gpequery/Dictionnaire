@@ -21,7 +21,7 @@ void clearConsole(char* dico) {
     printf("Dictionnaire %s\n", dico);
     printf("--------------");
 
-    int size = strlen(dico);
+    int size = my_strlen(dico);
     int i;
     for ( i = 0; i < size; i ++ ) {
         printf("-");
@@ -101,11 +101,12 @@ void menu(int numDico, int in, char* word) {
     int action;
     char* nomDico = getNomDico(numDico);
     char input[50];
-    char pathDico[50] = "";
 
-    strcat(pathDico, "LesDictionnaires/");
-    strcat(pathDico, nomDico);
-    strcat(pathDico, ".txt");
+    char* pathDico = "";
+
+    pathDico = my_strcat(pathDico, "LesDictionnaires/");
+    pathDico = my_strcat(pathDico, nomDico);
+    pathDico = my_strcat(pathDico, ".txt");
 
     clearConsole(nomDico);
 
@@ -129,10 +130,10 @@ void menu(int numDico, int in, char* word) {
     scanf("%d", &action);
 
     if (action == 1) {
-        printf("Mot recherche en minuscule : ");
+        printf("Mot recherche : ");
         scanf("%s", input);
 
-        if (wordInDico(pathDico, input)) {
+        if (wordInDico(pathDico, my_tolower(input))) {
             menu(numDico, 1, input);
         } else {
             menu(numDico, 0, input);
@@ -146,4 +147,6 @@ void menu(int numDico, int in, char* word) {
     } else {
         menu(numDico, in, word);
     }
- }
+
+    free(pathDico);
+}

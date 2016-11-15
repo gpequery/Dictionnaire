@@ -9,3 +9,11 @@
 
 1478740095 d:\greg\workspaces\codeblocks\dictionnaire\my_function.c
 
+1479242864 source:c:\users\mike-pc\documents\github\dictionnaire\main.c
+	<stdio.h>
+	<stdlib.h>
+	"gestbib.c"
+
+1479245235 c:\users\mike-pc\documents\github\dictionnaire\gestbib.c
+	<dirent.h>
+

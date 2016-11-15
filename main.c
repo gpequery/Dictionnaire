@@ -141,7 +141,8 @@ void menu(int numDico, int in, char* word) {
     } else if (action == 2) {
         printf("Mot a ajouter : ");
         scanf("%s", input);
-        addWord(pathDico, input);
+        addWord(nomDico, pathDico, input);
+        menu(action, -1, "Le mot à été ajouté !");
     } else if (action == 3) {
         accueil();
     } else {

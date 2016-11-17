@@ -118,9 +118,9 @@ void menu(int numDico, int in, char* word) {
         color("32");
         printf("'%s' est dans le dictionnaire", word);
     }
-
     color("36");
     printf("\n\n");
+
     printf("1. Chercher un mot\n");
     printf("2. Ajouter un mot\n");
     printf("3. Retour \n\n");
@@ -141,8 +141,13 @@ void menu(int numDico, int in, char* word) {
     } else if (action == 2) {
         printf("Mot a ajouter : ");
         scanf("%s", input);
-        addWord(nomDico, pathDico, input);
-        menu(action, -1, "Le mot à été ajouté !");
+
+        if (!wordInDico(pathDico, my_tolower(input))) {
+            addWord(pathDico, my_tolower(input));
+        } else {
+
+        }
+
     } else if (action == 3) {
         accueil();
     } else {

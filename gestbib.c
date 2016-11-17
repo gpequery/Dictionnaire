@@ -14,12 +14,12 @@ void supprimerDico(char*);                  // (char* delDico sans le .txt)
 char* getNomDico(int);                      // Retourne le nom du dico sans le .txt (int:numDico)
 short existFichier(char*);                  // Boolean : exist ? (char* nomCherché sans .txt)
 short existDico(char*);                     // Boolean : exist ? (char* nomCherché sans .txt)
+int countWordInFile(char*);                 // Retourne le nombre de mot dans le fichier char*
 void ajouterDicoFile(char*, char*);         // (char* nom fichier existant, char* nom du dico qui seras creer)
 char* finalyWord(char*);                    // Retourne le mot sans caractère speciale  Malloc !!
 short wordInDico(char*, char*);             // Boolean : moot dans dico ? (char* nom dico, char* mot a chercher)
+void addWord(char*, char*);                 // Ajoute dans le dico char* le mot char*
 
-void sortFile(char*, char*);                // Tri un fichier
-void addWord(char*, char*, char*);          // Ajoute un mot dans le dictionnaire + tri le fichier
 
 int my_strlen(char* word) {
     int count = 0;
@@ -233,36 +233,87 @@ short existDico(char* name) {
     return result;
 }
 
+int countWordInFile(char* fileName) {
+    char *str = malloc(sizeof(char) * 25);
+    int countWord = 0;
+
+    FILE* file = fopen(fileName, "r");
+    while (!feof(file)) {
+        fscanf(file, "%s", str);
+        countWord ++;
+    }
+    free(str);
+    return countWord;
+}
+
 void ajouterDicoFile(char* oldName, char* newName) {
     char pathDico[50] = "LesDictionnaires/";
     char pathFile[50] = "LesFichiers/";
 
-    char* directoryDico;
-    char* directoryFile;
-    directoryDico = my_strcat(pathDico, newName);
-    directoryFile = my_strcat(pathFile, oldName);
+    char* directoryDico = my_strcat(pathDico, newName);
+    char* directoryFile = my_strcat(pathFile, oldName);
 
+    int countWord = countWordInFile(directoryFile);
+    char **tab = malloc(sizeof(char[25]) * countWord);
+
+    int i = 0;
+    int j;
+
+    int can;
+    //Les mots du fichier dans un tableau
     FILE* file = fopen(directoryFile, "r");
-
     if (file) {
-        char word[50];
-        char* safeWord;
+        while (!feof(file)) {
+            can = 1;
+            char* str = malloc(sizeof(char) * 25);
+            fscanf(file, "%s", str);
 
-        while(!feof(file)) {
-            fscanf(file, "%s", &word);
+            str = finalyWord(my_tolower(str)) ;
 
-            safeWord = finalyWord(word);
-            if ( ! wordInDico(directoryDico, safeWord) ) {
-                FILE* dico = fopen(directoryDico, "a");
-                if (dico) {
-                    fprintf(dico, "%s\n", safeWord);
-                    fclose(dico);
+            if (i > 0) {
+                for (j = 0; j < i; j++) {
+                    if (my_strcmp(tab[j], str) == 0) {
+                        can = 0;
+                    }
                 }
             }
+
+            if (can == 1) {
+                tab[i] = str;
+                i++;
+            } else {
+                countWord --; //si on ajoute pas de mot on baisse le compteur d'éléments
+            }
         }
-        free(safeWord);
-        fclose(file);
     }
+    fclose(file);
+
+    //Trie du tableau
+    int test = 1 ;
+    char* temp;
+
+    while (test) {
+        test = 0;
+        for (i = 0; i < countWord - 1; i++) {
+            if (strcmp(tab[i], tab[i+1]) > 0) {
+                temp = tab[i] ;
+                tab[i] = tab[i+1];
+                tab[i+1] = temp;
+
+                test = 1;
+            }
+        }
+    }
+
+    //Ecriture du tableau dans le fichier
+    FILE* dico = fopen(directoryDico, "w");
+    if (dico) {
+        for (i=0; i<countWord; i++) {
+            fprintf(file, "%s\n", tab[i]);
+        }
+    }
+    fclose(dico);
+
     free(directoryDico);
     free(directoryFile);
 }
@@ -274,8 +325,7 @@ char* finalyWord(char* word) {
     int i;
 
     for (i = 0; i < my_strlen(word); i ++ ) {
-        if ( (word[i] > 64 && word[i] < 91) || (word[i] > 96 && word[i] < 123) || (word[i] > -65 && word[i] < -48) || (word[i] > -48 && word[i] < -41) || (word[i] > -40 && word[i] < -34) || (word[i] > -33 && word[i] < -16) || (word[i] > -16 && word[i] < -9) || (word[i] > -8 && word[i] < -2) ) {
-
+        if ( (word[i] == 39) || (word[i] > 64 && word[i] < 91) || (word[i] > 96 && word[i] < 123) || (word[i] > -65 && word[i] < -48) || (word[i] > -48 && word[i] < -41) || (word[i] > -40 && word[i] < -34) || (word[i] > -33 && word[i] < -16) || (word[i] > -16 && word[i] < -9) || (word[i] > -8 && word[i] < -2) ) {
             result[j] = my_cTolower(word[i]);
             j ++;
         }
@@ -293,7 +343,6 @@ short wordInDico(char* directoryDico, char* word) {
     } else {
         FILE* dico = fopen(directoryDico, "r");
         if (dico) {
-
             char compare[50];
             while(!feof(dico)) {
                 fscanf(dico, "%s", compare);
@@ -307,83 +356,22 @@ short wordInDico(char* directoryDico, char* word) {
     return in;
 }
 
-/*short addWord(char* pathDico, char* word) {
-    short result = 0;
-    printf("\nDico : %s  |  Mot : %s\n", pathDico, my_tolower(word)); //free !!
+void addWord(char* pathDico, char* word) {
+    char currentWord[25];
+    char* safeword = finalyWord(word);
 
-    return result;
-}*/
-
-
-/*
-    Info :
-    ZZFINDUDICO est un terme que j'ai mis en place, il a pour but d'être le EOF version char*
-*/
-void sortFile(char* nameFile, char* pathFile){
-    FILE* f = fopen("LesDictionnaires/x.txt", "r");
-    FILE* f2 = fopen("LesDictionnaires/NewDico.txt", "w+");
-
-    if(f != NULL && f2 != NULL){
-        char *str = malloc(sizeof(char) * 25);
-        int cpt = 0;
-        int i;
-
-        // Compter le nombre de mots
-        while(my_strcmp(str, "ZZZFINDUDICO") != 0){
-            fscanf(f, "%s", str);
-            cpt++;
-        }
-
-        char **tab = malloc(sizeof(char[25]) * cpt);
-
-        fseek(f, 0, SEEK_SET);
-
-        for(i = 0; i < cpt - 1; i++){
-            char *str2 = malloc(sizeof(char) * 25);
-            fscanf(f, "%s", str2);
-            tab[i] = str2;
-        }
-
-        // Permet de trier le tableau de mots
-        int ok = 0;
-        while(ok != 1){
-            ok = 1;
-            for(i = 0 ; i < cpt - 2 ; i++){
-                if(my_strcmp(tab[i], tab[i+1]) <= 0){
-                    char *tmp = tab[i];
-                    tab[i] = tab[i+1];
-                    tab[i+1] = tmp;
-
-                    ok = 0;
-                }
+    FILE* dico = fopen(pathDico, "r+");
+    if (dico) {
+        while(!feof(dico)) {
+            fscanf(dico, "%s", currentWord);
+            if (strcmp(currentWord, safeword) < 0) {
+                fputs("puttinnnnnnnn", dico); //ajout du mot à la ligne courante mais marche pas (encore ...)
+                printf("<");
+            } else {
+                printf(">");
             }
-        }
-         //Permet d'ecrire le contetnu du tableau dans le fichier
-        for(i = 0; i < cpt - 1; i++){
-            fprintf(f2, "%s\n", tab[i]);
+            printf(" %s | %s\n", safeword, currentWord);
         }
     }
-
-    fprintf(f2, "%s", "ZZZFINDUDICO");
-
-    fclose(f);
-    fclose(f2);
-
-    remove("LesDictionnaires/x.txt");
-    rename("LesDictionnaires/NewDico.txt", "LesDictionnaires/x.txt");
-
-}
-
-void addWord(char* nameFile, char* pathFile, char* word){
-
-    FILE* f = fopen(pathFile, "r+");
-
-    if(f != NULL){
-        fseek(f, -12, SEEK_END); // -12 pour mettre le curseur devant ZZZFINDUDICO
-        fprintf(f, "%s\n", word);
-    }
-
-    fprintf(f, "%s", "ZZZFINDUDICO");
-    fclose(f);
-    sortFile(nameFile, pathFile);
+    fclose(dico);
 }

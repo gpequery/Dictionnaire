@@ -9,6 +9,8 @@ void clearConsole(char*);   //Affichage en tete (char* le titre a afficher)
 void accueil();             //Gestion des dicos
 void menu(int, int, char*);             //Apres selection d'un dico (int: numDico)
 
+enum {WORD_NOT_IN_DICO, WORD_IN_DICO, WAS_ADD, WAS_NOT_ADD};
+enum {SEARCH = 1, ADD_WORD, RETOUR};
 
 int main() {
     accueil();
@@ -97,7 +99,7 @@ void accueil() {
     }
  }
 
-void menu(int numDico, int in, char* word) {
+void menu(int numDico, int alert, char* word) {
     int action;
     char* nomDico = getNomDico(numDico);
     char input[50];
@@ -111,13 +113,27 @@ void menu(int numDico, int in, char* word) {
     clearConsole(nomDico);
 
     //Message pour indiquer le résultat de l'action
-    if (in == 0) {
-        color("31");
-        printf("'%s' n'est pas dans le dictionnaire", word);
-    } else if (in == 1) {
-        color("32");
-        printf("'%s' est dans le dictionnaire", word);
+    switch (alert) {
+        case WORD_NOT_IN_DICO :
+            color("31");
+            printf("'%s' n'est pas dans le dictionnaire", word);
+            break;
+
+        case WORD_IN_DICO :
+            color("32");
+            printf("'%s' est dans le dictionnaire", word);
+            break;
+
+        case WAS_ADD :
+            color("32");
+            printf("'%s' a bien été ajouté dans le dictionnaire", word);
+            break;
+
+        case WAS_NOT_ADD :
+            color("31");
+            printf("'%s' est déjà dans le dictionnaire", word);
     }
+
     color("36");
     printf("\n\n");
 
@@ -129,30 +145,70 @@ void menu(int numDico, int in, char* word) {
     printf("Que voulez vous faire : ");
     scanf("%d", &action);
 
-    if (action == 1) {
+    switch (action) {
+        case SEARCH :
+            printf("Mot recherche : ");
+            scanf("%s", input);
+
+            if (wordInDico(pathDico, my_tolower(input))) {
+                menu(numDico, WORD_IN_DICO, input);
+            } else {
+                menu(numDico, WORD_NOT_IN_DICO, input);
+            }
+            break;
+
+        case ADD_WORD :
+            printf("Mot a ajouter : ");
+            scanf("%s", input);
+
+            if (!wordInDico(pathDico, my_tolower(input))) {
+                addWord(pathDico, my_tolower(input));
+                menu(numDico, WAS_ADD, input);
+            } else {
+                menu(numDico, WAS_NOT_ADD, input);
+            }
+            break;
+
+        case RETOUR :
+            accueil();
+            break;
+
+        default :
+            menu(numDico, alert, word);
+    }
+
+
+
+
+
+
+
+
+    /*if (action == SEARCH) {
         printf("Mot recherche : ");
         scanf("%s", input);
 
         if (wordInDico(pathDico, my_tolower(input))) {
-            menu(numDico, 1, input);
+            menu(numDico, WORD_IN_DICO, input);
         } else {
-            menu(numDico, 0, input);
+            menu(numDico, WORD_NOT_IN_DICO, input);
         }
-    } else if (action == 2) {
+    } else if (action == ADD_WORD) {
         printf("Mot a ajouter : ");
         scanf("%s", input);
 
         if (!wordInDico(pathDico, my_tolower(input))) {
             addWord(pathDico, my_tolower(input));
+            menu(numDico, WAS_ADD, input);
         } else {
 
         }
 
-    } else if (action == 3) {
+    } else if (action == RETOUR) {
         accueil();
     } else {
-        menu(numDico, in, word);
-    }
+        menu(numDico, alert, word);
+    }*/
 
     free(pathDico);
 }

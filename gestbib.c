@@ -62,7 +62,6 @@ char my_cTolower(char c) {
         lower = c;
     }
 
-
     return lower;
 }
 
@@ -309,7 +308,7 @@ void ajouterDicoFile(char* oldName, char* newName) {
     FILE* dico = fopen(directoryDico, "w");
     if (dico) {
         for (i=0; i<countWord; i++) {
-            fprintf(file, "%s\n", tab[i]);
+            fprintf(dico, "%s\n", tab[i]);
         }
     }
     fclose(dico);
@@ -325,7 +324,7 @@ char* finalyWord(char* word) {
     int i;
 
     for (i = 0; i < my_strlen(word); i ++ ) {
-        if ( (word[i] == 39) || (word[i] > 64 && word[i] < 91) || (word[i] > 96 && word[i] < 123) || (word[i] > -65 && word[i] < -48) || (word[i] > -48 && word[i] < -41) || (word[i] > -40 && word[i] < -34) || (word[i] > -33 && word[i] < -16) || (word[i] > -16 && word[i] < -9) || (word[i] > -8 && word[i] < -2) ) {
+        if ( (word[i] == 39 && (j != 0 && j != my_strlen(word)-2)) || (word[i] == 45 && (j != 0 && j != my_strlen(word)-2)) || (word[i] > 64 && word[i] < 91) || (word[i] > 96 && word[i] < 123) || (word[i] > -65 && word[i] < -48) || (word[i] > -48 && word[i] < -41) || (word[i] > -40 && word[i] < -34) || (word[i] > -33 && word[i] < -16) || (word[i] > -16 && word[i] < -9) || (word[i] > -8 && word[i] < -2) ) {
             result[j] = my_cTolower(word[i]);
             j ++;
         }
@@ -357,21 +356,38 @@ short wordInDico(char* directoryDico, char* word) {
 }
 
 void addWord(char* pathDico, char* word) {
-    char currentWord[25];
+
     char* safeword = finalyWord(word);
+    int countWord = countWordInFile(pathDico);
+    char **tab = malloc(sizeof(char[25]) * countWord+1);
+    int i = 0;
+    int wasAdd = 0;
 
     FILE* dico = fopen(pathDico, "r+");
     if (dico) {
         while(!feof(dico)) {
+            char* currentWord = malloc(sizeof(char) * 25);
             fscanf(dico, "%s", currentWord);
-            if (strcmp(currentWord, safeword) < 0) {
-                fputs("puttinnnnnnnn", dico); //ajout du mot à la ligne courante mais marche pas (encore ...)
-                printf("<");
-            } else {
-                printf(">");
+            if ( (strcmp(currentWord, safeword) > 0) && wasAdd == 0) {
+                tab[i] = safeword ;
+                i++;
+                wasAdd = 1;
             }
-            printf(" %s | %s\n", safeword, currentWord);
+            tab[i] = currentWord ;
+            i++;
         }
     }
     fclose(dico);
+
+
+    FILE* remakeDico = fopen(pathDico, "w+");
+    if (remakeDico) {
+        for (i=0; i<countWord+1; i++) {
+            fprintf(remakeDico, "%s\n", tab[i]);
+            free(tab[i]);
+        }
+    }
+    fclose(dico);
+    free(tab);
+    free(safeword);
 }
